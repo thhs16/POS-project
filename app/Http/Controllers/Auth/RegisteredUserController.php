@@ -29,6 +29,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // dd('from store function registeredUsercontroller');
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -43,8 +44,19 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // return redirect(route('dashboard', absolute: false));
+
+        
+        // dd($request->user()->role);
+
+        if($request->user()->role == 'admin'){
+            return to_route('adminDashboard');
+        }
+
+        if($request->user()->role == 'user'){
+            return to_route('customerDashboard');
+        }
     }
 }
