@@ -37,6 +37,9 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required'],
             'address' => ['required'],
+            'password_confirmation' => ['required'],
+        ],[
+            // 'name' => 'လိုအပ်သည်'
         ]);
 
         // dd('after the validation');

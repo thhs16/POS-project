@@ -29,14 +29,14 @@
                                             id="exampleInputEmail" aria-describedby="emailHelp"
                                             placeholder="Enter Email Address..." name="email" value="{{ old('email') }}">
                                         @error('email')
-                                            <p class="invalid-feedback">{{ $message }}</p>
+                                            <small class="invalid-feedback">{{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user @error('password') is-invalid @enderror"
                                             id="exampleInputPassword" placeholder="Password" name="password" value="{{ old('password') }}" >
                                         @error('password')
-                                            <p class="invalid-feedback">{{ $message }}</p>
+                                            <small class="invalid-feedback">{{ $message }}</small>
                                         @enderror
                                     </div>
 

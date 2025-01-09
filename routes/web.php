@@ -29,11 +29,15 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 // admin
-Route::get('admin/dashboard', function (){
-    return view('admin/home');
-})->name('adminDashboard');
+Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function(){
+
+    Route::get('/dashboard', [AdminDashboardController::class,'index'])->name('adminDashboard');
+
+});
 
 // customer
-Route::get('customer/home', function (){
-    return view('customer/home');
-})->name('customerDashboard');
+Route::group([ 'prefix' => 'customer', 'middleware' => 'user'], function(){
+
+    Route::get('/home', [UserDashboardController::class, 'index'])->name('customerDashboard');
+
+});
