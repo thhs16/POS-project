@@ -50,7 +50,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        // dd('Redirecting to / ');
+        dd('Redirecting to / ');
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

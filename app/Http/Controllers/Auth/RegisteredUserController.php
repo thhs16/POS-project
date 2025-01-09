@@ -29,34 +29,43 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // dd('from store function registeredUsercontroller');
+        // dd('from store function registeredUsercontroller')
+        // dd($request->all());
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => ['required'],
+            'address' => ['required'],
         ]);
+
+        // dd('after the validation');
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'address' => $request->address,
         ]);
+
+        // dd('after the data creation');
 
         event(new Registered($user));
 
-        // Auth::login($user);
+        Auth::login($user);
 
-        // return redirect(route('dashboard', absolute: false));
+        return to_route('customerDashboard');
 
-        
+
         // dd($request->user()->role);
 
-        if($request->user()->role == 'admin'){
-            return to_route('adminDashboard');
-        }
+        // if($request->user()->role == 'admin'){
+        //     return to_route('adminDashboard');
+        // }
 
-        if($request->user()->role == 'user'){
-            return to_route('customerDashboard');
-        }
+        // if($request->user()->role == 'user'){
+        //     return to_route('customerDashboard');
+        // }
     }
 }

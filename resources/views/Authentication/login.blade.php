@@ -25,13 +25,19 @@
                                     @csrf
 
                                     <div class="form-group">
-                                        <input type="email" class="form-control form-control-user"
+                                        <input type="email" class="form-control form-control-user @error('email') is-invalid @enderror"
                                             id="exampleInputEmail" aria-describedby="emailHelp"
                                             placeholder="Enter Email Address..." name="email" value="{{ old('email') }}">
+                                        @error('email')
+                                            <p class="invalid-feedback">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user"
+                                        <input type="password" class="form-control form-control-user @error('password') is-invalid @enderror"
                                             id="exampleInputPassword" placeholder="Password" name="password" value="{{ old('password') }}" >
+                                        @error('password')
+                                            <p class="invalid-feedback">{{ $message }}</p>
+                                        @enderror
                                     </div>
 
                                     {{-- <div class="form-group">
