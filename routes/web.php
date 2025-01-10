@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 
 Route::redirect('/','auth/login');
 
@@ -32,6 +34,13 @@ require __DIR__.'/auth.php';
 Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function(){
 
     Route::get('/dashboard', [AdminDashboardController::class,'index'])->name('adminDashboard');
+
+    // category
+    Route::prefix('category')->group(function(){
+        Route::get('list', [CategoryController::class,'list'])->name('categoryList');
+        Route::get('create', [CategoryController::class,'createPage'])->name('categoryCreatePage');
+        Route::post('create', [CategoryController::class,'create'])->name('categoryCreate');
+    });
 
 });
 
