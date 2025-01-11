@@ -18,7 +18,9 @@ class CategoryController extends Controller
     }
 
     // category create
-    public function create(){
-        return view('');
+    public function create(Request $request){
+        dd($request->all());
+
+        $validator = $request->validate
     }
 }
