@@ -140,6 +140,7 @@
                 <!-- End of Topbar -->
 
                 @yield('content')
+                @include('sweetalert::alert')
 
 
 
