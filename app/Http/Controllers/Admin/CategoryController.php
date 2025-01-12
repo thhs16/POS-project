@@ -12,7 +12,8 @@ class CategoryController extends Controller
 {
     // category list
     public function list(){
-        return view('admin.category.list');
+        $data = Category::get();
+        return view('admin.category.list', compact('data'));
     }
 
     // category create page
@@ -25,17 +26,23 @@ class CategoryController extends Controller
         // dd($request->all());
 
         $validator = $request->validate([
-            'category' => 'required'
+            'category' => 'required|unique:categories,name' // has to add DB and its field name
         ],[
-            'category.required' => 'This name is required to be filled out.'
+            'category.required' => 'ဖြည့်စွက်ရန်လိုအပ်သည်'
         ]);
+
+        // dd('validated');
 
         Category::create([
-            'name' => $request->category,
+            'name' => $request->category
         ]);
 
+        // dd('created DB');
+
         // return back()->with(['success' => 'insert success']);
-        Alert::success('Success Title', 'Success Message');
+        Alert::success('Success Title', 'Success Message'); // The problem is sweet alert not showing
+
+        // dd('Alert');
 
         return back();
     }

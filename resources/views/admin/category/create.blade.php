@@ -22,7 +22,10 @@
 
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Category Name</label>
-                    <input type="text" name="category" value="{{ old('category') }}" class="form-control" id="exampleFormControlInput1" placeholder="Drinks...">
+                    <input type="text" name="category" value="{{ old('category') }}" class="form-control @error('category') is-invalid @enderror" id="exampleFormControlInput1" placeholder="Drinks...">
+                    @error('category')
+                        <small class=" invalid-feedback">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <input type="submit" value="Create" class="btn btn-primary">
