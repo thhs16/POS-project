@@ -46,4 +46,37 @@ class CategoryController extends Controller
 
         return back();
     }
+
+    // delete
+    public function delete($id){
+        Category::where('id', $id)->delete();
+
+        Alert::success('Delete Success', 'Category Delete Successfully');
+        Alert('Success delete original');
+
+        return back();
+    }
+
+    // edit category
+    public function edit($id){
+        $data = Category::where('id', $id)->first();
+
+        // dd($data->toArray());
+        return view('category.edit', compact('data'));
+    }
+
+    // update catgory
+    public function update(Request $request){
+        $validator = $request->validate([
+            'category' => 'required|unique:categories,name,'.$request->id
+        ]);
+
+        Category::where('id',$request->categoryId)->update([
+            'name' => $request->category
+        ]);
+
+        Alert::success('Update Success', 'Category Update Successfully');
+
+        return to_route('categoryList');
+    }
 }

@@ -37,8 +37,8 @@
                                 <td>{{ $item->name}}</td>
                                 <td>{{ $item->created_at}}</td>
                                 <td>
-                                    <a href="btn btn-outline-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                    <a href="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="" class="btn btn-outline-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="{{ route('categoryDelete', $item->id) }}" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach
