@@ -17,6 +17,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'auth']], function
         Route::post('create', [CategoryController::class,'create'])->name('categoryCreate');
         Route::get('delete/{id}',[CategoryController::class,'delete'])->name('categoryDelete');
         Route::get('edit/{id}',[CategoryController::class,'edit'])->name('categoryEdit');
+        Route::get('update',[CategoryController::class,'update'])->name('categoryUpdate');
     });
 
     // product

@@ -62,7 +62,7 @@ class CategoryController extends Controller
         $data = Category::where('id', $id)->first();
 
         // dd($data->toArray());
-        return view('category.edit', compact('data'));
+        return view('admin.category.edit', compact('data'));
     }
 
     // update catgory
