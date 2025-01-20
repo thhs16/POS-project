@@ -17,12 +17,13 @@
             </div>
             <div class="card-body">
 
-            <form action="{{ route('categoryEdit') }}" method="post">
+            <form action="{{ route('categoryUpdate') }}" method="post">
                 @csrf
 
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Category Name</label>
-                    <input type="hidden" name="">
+                    <input type="hidden" name="id" value="{{ $data->id }}">
+                    <input type="hidden" name="oldCateName" value="{{ $data->name }}">
                     <input type="text" name="category" value="{{ $data->name }}" class="form-control @error('category') is-invalid @enderror" id="exampleFormControlInput1" placeholder="Drinks...">
                     @error('category')
                         <small class=" invalid-feedback">{{ $message }}</small>

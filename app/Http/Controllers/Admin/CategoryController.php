@@ -59,24 +59,44 @@ class CategoryController extends Controller
 
     // edit category
     public function edit($id){
+        // dd($id);
         $data = Category::where('id', $id)->first();
+        // dd('Have accessed the data.');
 
         // dd($data->toArray());
         return view('admin.category.edit', compact('data'));
+        // return view('admin.category.list', compact('data'));
+
     }
 
     // update catgory
     public function update(Request $request){
+        // dd($request->toArray());
+        // dd($request->id);
         $validator = $request->validate([
             'category' => 'required|unique:categories,name,'.$request->id
         ]);
 
-        Category::where('id',$request->categoryId)->update([
-            'name' => $request->category
-        ]);
+        // dd('validated');
+        // dd($request->category != $request->oldCateName);
 
-        Alert::success('Update Success', 'Category Update Successfully');
+        if($request->category != $request->oldCateName){
 
-        return to_route('categoryList');
+            Category::where('id',$request->id)->update([
+                'name' => $request->category
+            ]);
+
+            // Alert::success('Update Success', 'Category Update Successfully');
+            return to_route('categoryList')->with('message',"'$request->oldCateName' is changed into '$request->category'.");
+
+            // return to_route('categoryList');
+        }
+
+        // Alert::success('Update Success', 'Category Update Successfully');
+        // bootstrap
+
+        return to_route('categoryList')->with('message',"No changes.");
+
+
     }
 }
