@@ -23,6 +23,11 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'auth']], function
     // product
     Route::prefix('product')->group(function(){
         Route::get('list', [ProductController::class,'list'])->name('productList');
+        Route::get('create', [ProductController::class,'create'])->name('productcreate');
+        Route::post('createCon', [ProductController::class,'CreateCon'])->name('productCreateCon');
+
     });
+
+
 
 });
