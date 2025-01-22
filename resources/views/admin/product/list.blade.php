@@ -1,4 +1,9 @@
 @extends('admin.layouts.master')
+@if(session('message'))
+    <h6 class="alert alert-success">
+        {{ session('message') }}
+    </h6>
+@endif
 
 @section('content')
 
@@ -13,7 +18,7 @@
                     <div class="card-header py-3">
                         <div class="d-flex justify-content-between">
                             <div class="">
-                                <h6 class="m-0 font-weight-bold text-primary">Category List</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Product List</h6>
                             </div>
                             <div class="">
                                 <a href=""><i class="fa-solid fa-plus"></i> Add Category</a>
@@ -26,41 +31,31 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
+                                        <th>Image</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
-                                        <td>$320,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                        <td>$170,750</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                        <td>$86,000</td>
-                                    </tr>
+                                    @foreach ($productData as $pd)
+                                        <tr>
+                                            <td>{{ $pd->name }}</td>
+                                            <td class=" col-2"><img src="{{ asset('productImages/'.$pd->image) }}" class=" img-thumbnail" alt=""></td>
+                                            <td>{{ $pd->price }}</td>
+                                            <td>{{ $pd->count }}</td>
+                                            <td>
+                                                <a href="{{ route('productDetails',$pd->id) }}"><i class="fa-solid fa-eye btn btn-primary"></i></a>
+                                                <a href="{{ route('productEdit',$pd->id) }}"><i class="fa-solid fa-pen-to-square btn btn-secondary"></i></a>
+                                                <a href="{{ route('productDelete',$pd->id) }}"><i class="fa-solid fa-trash btn btn-danger"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
                                 </tbody>
                             </table>
+
+                            {{-- pagination --}}
+                            <span class=" d-flex justify-content-end">{{ $productData->links() }}</span>
                         </div>
                     </div>
                 </div>
