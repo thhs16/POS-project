@@ -6,12 +6,17 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
     // list
     public function list(){
+        dd(request('searchKey'));
+
+
+
         $productData = Product::orderBy('id', 'DESC')->paginate(3);
         // dd( $productData->toArray() );
         return view('admin.product.list', compact('productData'));
@@ -28,7 +33,7 @@ class ProductController extends Controller
     // product create
     public function createCon(Request $request){
         // dd($request->all());
-        $this->validationProduct($request);
+        $this->validationProduct($request, 'create');
 
         $data = $this->requestCategoryData($request);
 
@@ -55,16 +60,18 @@ class ProductController extends Controller
     }
 
     // product creation validation
-    private function validationProduct($request){
+    private function validationProduct($request, $action){
 
         $rules = [
-            'name' => 'required| unique:products,name',
+            'name' => 'required| unique:products,name,'.$request->productId,
             'price' => 'required| numeric',
             'description' => 'required',
             'categoryId' => 'required',
             'count' => 'required|numeric|digits_between:1,100',
             'image' => 'required|mimes:jpg,jpeg,png|file',
         ];
+
+        $rules['image'] = $action == 'create'? 'required|mimes:jpg,jpeg,png|file' : 'mimes:jpg,jpeg,png|file';
 
         $message = [
             'categoryId' => 'The category name field is required.'
@@ -98,15 +105,53 @@ class ProductController extends Controller
                                     ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
                                     ->where('products.id', $id)->first();
 
-        $category_detail = Product::get();
+        $category_detail = Category::get();
+        // dd($category_detail->toArray());
         return view('admin.product.edit', compact('product_detail','category_detail'));
 
     }
 
+
+
+
+
     // product update
     public function productUpdate(Request $request){
-        dd($request->all());
+
+        $this->validationProduct($request, 'update');
+
+        $data = $this->requestCategoryData($request);
+
+
+        if($request->hasFile('image')){
+
+            // delete old image
+            unlink(public_path('productImages/'.$request->oldImageName));
+
+            // upload new image
+            $fileName = uniqid() . $request->file('image')->getClientOriginalName();
+            $request->file('image')->move(public_path().'/productImages/',$fileName);
+            $data['image'] = $fileName;
+
+        }else{
+
+            // Keep old image
+            $data['image'] = $request->oldImageName;
+
+        }
+
+        // Updates to DB
+        Product::where('id', $request->productId)->update($data);
+        Session::flash('message',"Updated Successfully");
+        return to_route('productList');
+        // return to_route('productList')->with('message',"Updated Successfully");
+
+
     }
+
+
+
+
 
     private function requestCategoryData($request){
         return [

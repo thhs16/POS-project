@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @if(session('message'))
-    <h6 class="alert alert-success">
+    <h6 id="sessionMessage" class="alert alert-success">
         {{ session('message') }}
     </h6>
 @endif
@@ -18,7 +18,23 @@
                     <div class="card-header py-3">
                         <div class="d-flex justify-content-between">
                             <div class="">
-                                <h6 class="m-0 font-weight-bold text-primary">Product List</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">
+
+                                    <form action="{{ route('productList') }}">
+                                        
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="searchKey" class="form-control" placeholder="Product's Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+
+                                            <div class="input-group-append">
+                                              <button class="btn btn-outline-secondary" type="submit">
+                                                Search <i class="fa-solid fa-magnifying-glass"></i>
+                                              </button>
+                                            </div>
+
+                                          </div>
+                                    </form>
+
+                                </h6>
                             </div>
                             <div class="">
                                 <a href=""><i class="fa-solid fa-plus"></i> Add Category</a>

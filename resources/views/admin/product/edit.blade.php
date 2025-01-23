@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ route('productCreateCon') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('productUpdate') }}" method="post" enctype="multipart/form-data">
                     @csrf
 
                     <input type="hidden" name="oldImageName" value="{{ $product_detail->image}}">
@@ -105,7 +105,7 @@
 
 
 
-                            <input type="submit" value="Create" class="btn btn-primary">
+                            <input type="submit" value="Update" class="btn btn-primary">
 
 
 

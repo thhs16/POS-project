@@ -206,6 +206,16 @@
         }
     </script>
 
+    {{-- Temporary session message --}}
+    <script>
+        setTimeout(function() {
+            let msg = document.getElementById('sessionMessage');
+            if (msg){
+               msg.remove();
+            }
+        }, 2000);
+    </script>
+
 </body>
 
 </html>
