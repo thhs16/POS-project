@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -30,6 +31,11 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'auth']], function
         Route::get('edit/{id}', [ProductController::class,'productEdit'])->name('productEdit');
         Route::post('update', [ProductController::class,'productUpdate'])->name('productUpdate');
 
+    });
+
+    // password
+    Route::prefix('password')->group(function(){
+        Route::get('change', [AuthController::class,'change'])->name('passwordChange');
     });
 
 

@@ -13,11 +13,15 @@ class ProductController extends Controller
 {
     // list
     public function list(){
-        dd(request('searchKey'));
+        // dd(request('searchKey'));
 
 
 
-        $productData = Product::orderBy('id', 'DESC')->paginate(3);
+        $productData = Product::when(request('searchKey'),function($query){
+            $query->whereAny(['name', 'price' , 'count'], 'like', '%'.request('searchKey').'%');
+        })
+                        ->orderBy('id', 'DESC')
+                        ->paginate(3);
         // dd( $productData->toArray() );
         return view('admin.product.list', compact('productData'));
     }

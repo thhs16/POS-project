@@ -35,7 +35,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Code Lab Studio</div>
+                <div class="sidebar-brand-text mx-3">Code Lab Studio || {{ auth()->user()->providerName}}</div>
             </a>
 
             <!-- Divider -->
@@ -78,9 +78,11 @@
                 <a class="nav-link" href="#"><i class="fa-solid fa-gear"></i></i><span>Setting </span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-lock"></i></i></i><span>Change Password </span></a>
-            </li>
+            @if ( auth()->user()->providerName == 'simple')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('passwordChange') }}"><i class="fa-solid fa-lock"></i></i></i><span>Change Password</span></a>
+                </li>
+            @endif
 
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa-solid fa-right-from-bracket"></i></i><span>Logout </span></a>
@@ -122,10 +124,14 @@
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
-                                    Change Password
-                                </a>
+
+                                @if ( auth()->user()->providerName == 'simple')
+                                    <a class="dropdown-item" href="{{ route('passwordChange') }}">
+                                        <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
+                                        Change Password
+                                    </a>
+                                @endif
+
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

@@ -21,9 +21,9 @@
                                 <h6 class="m-0 font-weight-bold text-primary">
 
                                     <form action="{{ route('productList') }}">
-                                        
+
                                         <div class="input-group mb-3">
-                                            <input type="text" name="searchKey" class="form-control" placeholder="Product's Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                            <input type="text" name="searchKey" class="form-control" value="{{ request('searchKey') }}" placeholder="Product's Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
 
                                             <div class="input-group-append">
                                               <button class="btn btn-outline-secondary" type="submit">
