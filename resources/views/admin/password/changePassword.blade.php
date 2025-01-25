@@ -1,5 +1,19 @@
 @extends('admin.layouts.master')
 
+@if(session('message'))
+    <h6 id="sessionMessage" class="alert alert-success">
+        {{ session('message') }}
+    </h6>
+@endif
+
+@if (session('Error message'))
+    <h6 id="sessionMessage" class="alert alert-danger">
+        {{ session('Error message') }}
+    </h6>
+@endif
+
+
+
 @section('content')
 
     <!-- Begin Page Content -->
@@ -17,12 +31,12 @@
             </div>
             <div class="card-body">
 
-            <form action="{{ route('categoryCreate') }}" method="post">
+            <form action="{{ route('passwordChange') }}" method="post">
                 @csrf
 
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Old password</label>
-                    <input type="text" name="oldPassword" value="{{ old('oldPassword') }}" class="form-control @error('oldPassword') is-invalid @enderror" id="exampleFormControlInput1" placeholder="Drinks...">
+                    <input type="password" name="oldPassword" value="{{ old('oldPassword') }}" class="form-control @error('oldPassword') is-invalid @enderror" id="exampleFormControlInput1" placeholder="Drinks...">
                     @error('oldPassword')
                         <small class=" invalid-feedback">{{ $message }}</small>
                     @enderror
@@ -30,7 +44,7 @@
 
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">New password</label>
-                    <input type="text" name="newPassword" value="{{ old('newPassword') }}" class="form-control @error('newPassword') is-invalid @enderror" id="exampleFormControlInput1" placeholder="Drinks...">
+                    <input type="password" name="newPassword" value="{{ old('newPassword') }}" class="form-control @error('newPassword') is-invalid @enderror" id="exampleFormControlInput1" placeholder="Drinks...">
                     @error('newPassword')
                         <small class=" invalid-feedback">{{ $message }}</small>
                     @enderror
@@ -38,7 +52,7 @@
 
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Confirm password</label>
-                    <input type="text" name="confirmPassword" value="{{ old('confirmPassword') }}" class="form-control @error('confirmPassword') is-invalid @enderror" id="exampleFormControlInput1" placeholder="Drinks...">
+                    <input type="password" name="confirmPassword" value="{{ old('confirmPassword') }}" class="form-control @error('confirmPassword') is-invalid @enderror" id="exampleFormControlInput1" placeholder="Drinks...">
                     @error('confirmPassword')
                         <small class=" invalid-feedback">{{ $message }}</small>
                     @enderror

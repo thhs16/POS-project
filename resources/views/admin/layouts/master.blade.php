@@ -75,12 +75,12 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-gear"></i></i><span>Setting </span></a>
+                <a class="nav-link" href="{{ route('profileDetails') }}"><i class="fa-solid fa-gear"></i></i><span>Setting </span></a>
             </li>
 
             @if ( auth()->user()->providerName == 'simple')
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('passwordChange') }}"><i class="fa-solid fa-lock"></i></i></i><span>Change Password</span></a>
+                    <a class="nav-link" href="{{ route('passwordChangePg') }}"><i class="fa-solid fa-lock"></i></i></i><span>Change Password</span></a>
                 </li>
             @endif
 
@@ -109,7 +109,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {{ auth()->user()->name }}{{ auth()->user()->nickname }}
+                                </span>
                                 <img class="img-profile rounded-circle"
                                     src="{{ asset('admin/img/undraw_profile.svg')}}">
                             </a>
@@ -120,15 +122,15 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('profileDetails') }}">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
 
                                 @if ( auth()->user()->providerName == 'simple')
-                                    <a class="dropdown-item" href="{{ route('passwordChange') }}">
+                                    <a class="dropdown-item" href="{{ route('passwordChangePg') }}">
                                         <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
-                                        Change Password
+                                    Change Password
                                     </a>
                                 @endif
 

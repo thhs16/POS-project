@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 
@@ -35,9 +36,15 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'auth']], function
 
     // password
     Route::prefix('password')->group(function(){
-        Route::get('change', [AuthController::class,'change'])->name('passwordChange');
+        Route::get('changePg', [AuthController::class,'changePg'])->name('passwordChangePg');
+        Route::post('change', [AuthController::class,'change'])->name('passwordChange');
+
     });
 
+    // profile
+    Route::prefix('profile')->group(function(){
+        Route::get('details', [ProfileController::class,'profileDetails'])->name('profileDetails');
+        Route::post('detailsUpdate', [ProfileController::class,'profileDetailsUpdate'])->name('profileDetailsUpdate');
 
-
+    });
 });
