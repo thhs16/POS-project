@@ -113,8 +113,12 @@
                                     {{ auth()->user()->name }}{{ auth()->user()->nickname }}
                                 </span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{ asset('admin/img/undraw_profile.svg')}}">
-                            </a>
+                                src="{{ auth()->user()->profile == null ? asset('admin/img/undraw_profile.svg') : asset('profileImages/'. auth()->user()->profile) }}">
+
+
+
+
+                                </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">

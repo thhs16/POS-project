@@ -33,15 +33,15 @@ class ProviderController extends Controller
 
         Auth::login($user);
 
-        dd(Auth::user()->role);
+        // dd(Auth::user()->role);
 
-        // if($request->user()->role == 'admin'){
-        //     return to_route('adminDashboard');
-        // }
+        if(Auth::user()->role == 'admin'){
+            return to_route('adminDashboard');
+        }
 
-        // if($request->user()->role == 'user'){
-        //     return to_route('customerDashboard');
-        // }
+        if(Auth::user()->role == 'user'){
+            return to_route('customerDashboard');
+        }
 
     }
 }
