@@ -67,6 +67,10 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin&userlist') }}"><i class="fa-solid fa-credit-card"></i></i><span>Admin and User list</span></a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa-solid fa-list"></i><span>Sale Information </span></a>
             </li>
 
@@ -126,17 +130,18 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="{{ route('profileDetails') }}">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
 
                                 @if ( auth()->user()->providerName == 'simple')
                                     <a class="dropdown-item" href="{{ route('passwordChangePg') }}">
                                         <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
-                                    Change Password
+                                    Settings
                                     </a>
                                 @endif
+
+                                <a class="dropdown-item" href="{{ route('createAdminAccPg') }}">
+                                    <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
+                                Add New Admin Acc
+                                </a>
 
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">

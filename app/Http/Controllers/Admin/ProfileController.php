@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class profileController extends Controller
 {
@@ -49,6 +50,40 @@ class profileController extends Controller
 
 
         return back()->with('Error message',"No changes");
+    }
+
+    public function createAdminAccPg(){
+        return view('admin.profile.createAdminAccPg');
+    }
+
+    public function createAdminAcc(Request $request){
+        // validation
+        $validator = $request->validate([
+                'adminName' => 'required|string|max:255', // Required, must be a string, and up to 255 characters
+                'email' => 'required|email|max:255|unique:users,email', // Required, valid email, max 255 characters, must be unique in the 'users' table
+                'pw' => [
+                    'required',
+                    'string',
+                    'min:8', // At least 8 characters
+                    'regex:/[a-z]/', // At least one lowercase letter
+                    'regex:/[A-Z]/', // At least one uppercase letter
+                    'regex:/[0-9]/', // At least one digit
+                    'regex:/[@$!%*?&#]/' // At least one special character
+                ],
+                'confirmPassword' => 'required|same:pw', // Must match the 'password' field
+            ]);
+
+        $data = [
+            'name' => $request->adminName,
+            'password' => Hash::make($request->pw),
+            'email' => $request->email,
+            'role' => 'admin'
+        ];
+
+        User::create($data);
+        // dd('hello');
+        return back()->with('message',"Created the Admin Account Successfully");
+
     }
 
     private function validationCheckAdminDetails($request){

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\adminUserlist;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\admin\ProfileController;
@@ -45,5 +46,11 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'auth']], function
     Route::prefix('profile')->group(function(){
         Route::get('details', [ProfileController::class,'profileDetails'])->name('profileDetails');
         Route::post('detailsUpdate', [ProfileController::class,'profileDetailsUpdate'])->name('profileDetailsUpdate');
+
+        Route::get('create/adminAccPg', [ProfileController::class,'createAdminAccPg'])->name('createAdminAccPg');
+        Route::post('create/adminAcc', [ProfileController::class,'createAdminAcc'])->name('createAdminAcc');
     });
+
+    // role
+    Route::get('admin&userlist', [adminUserlist::class,'admin&userlist'])->name('admin&userlist');
 });
