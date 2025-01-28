@@ -25,6 +25,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+
+        // dd($request->user()->role == 'admin' | $request->user()->role == 'superAdmin');
         // dd('hello');
         // dd('from store function');
         // dd($request->all());
@@ -36,6 +38,8 @@ class AuthenticatedSessionController extends Controller
 
         // default dashboard
         // return redirect()->intended( route('dashboard', absolute: false ));
+
+
 
         if($request->user()->role == 'admin'){
             return to_route('adminDashboard');

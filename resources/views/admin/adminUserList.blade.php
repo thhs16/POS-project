@@ -1,91 +1,88 @@
 @extends('admin.layouts.master')
+@if(session('message'))
+    <h6 id="sessionMessage" class="alert alert-success">
+        {{ session('message') }}
+    </h6>
+@endif
 
 @section('content')
 
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
 
 
-        <!-- DataTales Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <div class="">
-                    <div class="">
-                        <h6 class="m-0 font-weight-bold text-primary">Product Details</h6>
+              <!-- Begin Page Content -->
+              <div class="container-fluid">
+
+
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <div class="d-flex justify-content-between">
+                            <div class="">
+                                <h6 class="m-0 font-weight-bold text-primary">
+
+                                    <form action="{{ route('productList') }}">
+
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="searchKey" class="form-control" value="{{ request('searchKey') }}" placeholder="Product's Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+
+                                            <div class="input-group-append">
+                                              <button class="btn btn-outline-secondary" type="submit">
+                                                Search <i class="fa-solid fa-magnifying-glass"></i>
+                                              </button>
+                                            </div>
+
+                                          </div>
+                                    </form>
+
+                                </h6>
+                            </div>
+                            <div class="">
+                                <a href=""><i class="fa-solid fa-plus"></i> Add Category</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($admin_list as $item)
+                                        <tr>
+                                            @if ($item->role == 'superAdmin')
+                                                <td class="text-danger">{{ $item->name }}{{ $item->nickname }}</td>
+                                            @endif
+                                            <td>{{ $item->email }}</td>
+                                            <td>@if ($item->phone != null)
+                                                {{ $item->phone }}
+                                            @else
+                                                -
+                                            @endif</td>
+                                            <td>@if ($item->address != null)
+                                                {{ $item->address }}
+                                            @else
+                                                -
+                                            @endif</td>
+
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+
+                            {{-- pagination --}}
+                            {{-- <span class=" d-flex justify-content-end">{{ $productData->links() }}</span> --}}
+                        </div>
                     </div>
                 </div>
+
             </div>
-            <div class="card-body">
-
-                <div class="row">
-                    <div class="col-3">
-                        <img class="img-thumbnail" id="output" src="{{ asset('productImages/'.$product_detail->image) }}" width="100%" alt="">
-
-                    </div>
-
-                    <div class="col-9">
-
-
-                        @csrf
-                            {{-- 1st row --}}
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Name</label>
-                                        <h3>{{ $product_detail->name }}</h3>
-                                    </div>
-                                </div>
-
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Price</label>
-                                        <h4>{{ $product_detail->price }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- 2nd row --}}
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Category Name</label>
-                                        <h4>{{ $product_detail->category_name }}</h4>
-
-                                    </div>
-                                </div>
-
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Count</label>
-                                        <h4>{{ $product_detail->count }}</h4>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Description</label>
-                                        <h4>{{ $product_detail->description }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <a href="{{ route('productList') }}"><input type="button" value="Back" class="btn btn-dark"></a>
-
-
-
-                    </div>
-
-                </div>{{-- End of the row --}}
-            </div>
-        </div>
-
-    </div>
-    <!-- /.container-fluid -->
+            <!-- /.container-fluid -->
 
 @endsection

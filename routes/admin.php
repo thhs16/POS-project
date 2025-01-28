@@ -52,5 +52,5 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'auth']], function
     });
 
     // role
-    Route::get('admin&userlist', [adminUserlist::class,'admin&userlist'])->name('admin&userlist');
+    Route::get('admin&userlist', [adminUserlist::class,'adminUserList'])->name('admin&userlist');
 });
