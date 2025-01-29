@@ -5,6 +5,12 @@
     </h6>
 @endif
 
+@if(session('Error messag'))
+    <h6 id="sessionMessage" class="alert alert-danger">
+        {{ session('Error messag') }}
+    </h6>
+@endif
+
 @section('content')
 
 
@@ -53,25 +59,45 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     @foreach ($admin_list as $item)
                                         <tr>
-                                            @if ($item->role == 'superAdmin')
-                                                <td class="text-danger">{{ $item->name }}{{ $item->nickname }}</td>
-                                            @endif
-                                            <td>{{ $item->email }}</td>
-                                            <td>@if ($item->phone != null)
+                                            {{-- first data --}}
+                                            <td @if ($item->role == 'superAdmin') class="text-danger" @endif>
+                                                {{ $item->name }}{{ $item->nickname }}
+                                            </td>
+
+                                            {{-- second data --}}
+                                            <td>{{ $item->email }}hello</td>
+
+                                            {{-- third data --}}
+                                            <td>
+                                            @if ($item->phone != null)
                                                 {{ $item->phone }}
                                             @else
                                                 -
                                             @endif</td>
-                                            <td>@if ($item->address != null)
+
+                                            {{-- fouth data --}}
+                                            <td>
+                                                @if ($item->address != null)
                                                 {{ $item->address }}
-                                            @else
-                                                -
-                                            @endif</td>
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            @if (auth()->user()->role == 'superAdmin')
+                                                {{-- fifth data --}}
+                                                <td>
+
+                                                    <a href='{{ route('deleteAdmin', $item->id )}}' class=" btn btn-outline-danger" href=""><i class="fa-solid fa-trash"></i></a>
+                                                </td>
+                                            @endif
+
 
                                         </tr>
                                     @endforeach
+
 
                                 </tbody>
                             </table>

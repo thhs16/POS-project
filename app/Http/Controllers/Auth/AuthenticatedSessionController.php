@@ -41,7 +41,7 @@ class AuthenticatedSessionController extends Controller
 
 
 
-        if($request->user()->role == 'admin'){
+        if(   in_array($request->user()->role, ['admin', 'superAdmin'])   ){
             return to_route('adminDashboard');
         }
 

@@ -53,4 +53,6 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'auth']], function
 
     // role
     Route::get('admin&userlist', [adminUserlist::class,'adminUserList'])->name('admin&userlist');
+    Route::get('delete/{id}', [adminUserlist::class,'deleteAdmin'])->name('deleteAdmin');
+
 });

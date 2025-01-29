@@ -17,7 +17,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // when accessing admin routes
-        if(Auth::user()->role == 'admin'){
+        if(   in_array(Auth::user()->role, ['admin', 'superAdmin'])   ){
             return $next($request);
         }
 
