@@ -66,9 +66,11 @@
                 <a class="nav-link" href="#"><i class="fa-solid fa-credit-card"></i></i><span>Payment Method </span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin&userlist') }}"><i class="fa-solid fa-credit-card"></i></i><span>Admin and User list</span></a>
-            </li>
+            {{-- @if ( auth()->user()->role == 'superAdmin') --}}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin&userlist') }}"><i class="fa-solid fa-credit-card"></i></i><span>Admin and User list</span></a>
+                </li>
+            {{-- @endif --}}
 
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa-solid fa-list"></i><span>Sale Information </span></a>
@@ -82,7 +84,7 @@
                 <a class="nav-link" href="{{ route('profileDetails') }}"><i class="fa-solid fa-gear"></i></i><span>Setting </span></a>
             </li>
 
-            @if ( auth()->user()->providerName == 'simple')
+            @if ( auth()->user()->providerName == 'simple' && auth()->user()->role =='superAdmin')
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('passwordChangePg') }}"><i class="fa-solid fa-lock"></i></i></i><span>Change Password</span></a>
                 </li>
@@ -131,17 +133,19 @@
                                     Profile
                                 </a>
 
-                                @if ( auth()->user()->providerName == 'simple')
+                                @if ( auth()->user()->providerName == 'simple' && auth()->user()->role =='superAdmin')
                                     <a class="dropdown-item" href="{{ route('passwordChangePg') }}">
                                         <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
-                                    Settings
+                                    Change Password
                                     </a>
                                 @endif
 
-                                <a class="dropdown-item" href="{{ route('createAdminAccPg') }}">
-                                    <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
-                                Add New Admin Acc
-                                </a>
+                                @if ( auth()->user()->role == 'superAdmin')
+                                    <a class="dropdown-item" href="{{ route('createAdminAccPg') }}">
+                                        <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
+                                    Add New Admin Acc
+                                    </a>
+                                @endif
 
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">

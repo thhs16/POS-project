@@ -21,7 +21,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-12 mb-3 mb-sm-0">
                                         <input type="text" name="name" class="form-control form-control-user @error('name') is-invalid @enderror" id="exampleFirstName"
-                                            placeholder="Name" value="{{ old('') }}">
+                                            placeholder="Name" value="{{ old('name') }}">
                                     @error('name')
                                         <small class="invalid-feedback">{{ $message }}</small>
                                     @enderror
@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="email" name="email" class="form-control form-control-user @error('email') is-invalid @enderror" id="exampleInputEmail"
-                                        placeholder="Email Address" value="{{ old('') }}">
+                                        placeholder="Email Address" value="{{ old('email') }}">
                                     @error('email')
                                         <small class="invalid-feedback">{{ $message }}</small>
                                     @enderror
@@ -37,14 +37,14 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" name="password" class="form-control form-control-user @error('password') is-invalid @enderror"
-                                            id="exampleInputPassword" placeholder="Password" value="{{ old('') }}">
+                                            id="exampleInputPassword" placeholder="Password" value="{{ old('password') }}">
                                         @error('password')
                                             <small class="invalid-feedback">{{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" name="password_confirmation" class="form-control form-control-user @error('password_confirmation') is-invalid @enderror"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password" value="{{ old('') }}">
+                                            id="exampleRepeatPassword" placeholder="Repeat Password" value="{{ old('password_confirmation') }}">
                                         @error('password_confirmation')
                                             <small class="invalid-feedback">{{ $message }}</small>
                                         @enderror
@@ -53,7 +53,7 @@
 
                                 <div class="form-group">
                                     <input type="text" name="phone" class="form-control form-control-user @error('phone') is-invalid @enderror"
-                                        placeholder="Phone" value="{{ old('') }}">
+                                        placeholder="Phone" value="{{ old('phone') }}">
                                     @error('phone')
                                         <small class="invalid-feedback">{{ $message }}</small>
                                     @enderror
@@ -61,7 +61,7 @@
 
                                 <div class="form-group">
                                     <input type="text" name="address" class="form-control form-control-user @error('address') is-invalid @enderror"
-                                        placeholder="Address" value="{{ old('') }}">
+                                        placeholder="Address" value="{{ old('address') }}">
                                     @error('address')
                                         <small class="invalid-feedback">{{ $message }}</small>
                                     @enderror

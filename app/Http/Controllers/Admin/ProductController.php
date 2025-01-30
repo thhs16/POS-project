@@ -72,10 +72,10 @@ class ProductController extends Controller
             'description' => 'required',
             'categoryId' => 'required',
             'count' => 'required|numeric|digits_between:1,100',
-            'image' => 'required|mimes:jpg,jpeg,png|file',
+            'image' => 'required|mimes:jpg,jpeg,png,webp|file',
         ];
 
-        $rules['image'] = $action == 'create'? 'required|mimes:jpg,jpeg,png|file' : 'mimes:jpg,jpeg,png|file';
+        $rules['image'] = $action == 'create'? 'required|mimes:jpg,jpeg,png,webp|file' : 'mimes:jpg,jpeg,png,webp|file';
 
         $message = [
             'categoryId' => 'The category name field is required.'

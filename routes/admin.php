@@ -53,6 +53,10 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'auth']], function
 
     // role
     Route::get('admin&userlist', [adminUserlist::class,'adminUserList'])->name('admin&userlist');
+    Route::get('userList', [adminUserlist::class,'userList'])->name('userList');
     Route::get('delete/{id}', [adminUserlist::class,'deleteAdmin'])->name('deleteAdmin');
+    Route::get('deleteUser/{id}', [adminUserlist::class,'deleteUser'])->name('deleteUser');
+    Route::get('changeToAdminRole/{id}', [adminUserlist::class,'changeToAdminRole'])->name('changeToAdminRole');
+
 
 });

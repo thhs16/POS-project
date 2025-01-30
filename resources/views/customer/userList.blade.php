@@ -26,7 +26,7 @@
                             <div class="">
                                 <h6 class="m-0 font-weight-bold text-primary">
 
-                                    <form action="{{ route('admin&userlist') }}">
+                                    <form action="{{ route('userList') }}">
 
                                         <div class="input-group mb-3">
                                             <input type="text" name="keyword" class="form-control" value="{{ request('keyword') }}" placeholder="Product's Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -55,8 +55,8 @@
 
                     </div>
                     <div class="card-body">
-                        <a href="#" class="btn btn-secondary mb-3">Admin List <span class="badge badge-light">{{$admin_list->total()}}</span></a>
-                            <a href="{{ route('userList') }}" class="btn btn-secondary mb-3">User List <span class="badge badge-light">{{$user_count}}</span></a>
+                        <a href="{{ route('admin&userlist') }}" class="btn btn-secondary mb-3">Admin List <span class="badge badge-light">{{$admin_count}}</span></a>
+                        <a href="#" class="btn btn-secondary mb-3">User List <span class="badge badge-light">{{$user_list->total()}}</span></a>
 
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -70,7 +70,7 @@
                                 </thead>
                                 <tbody>
 
-                                    @foreach ($admin_list as $item)
+                                    @foreach ($user_list as $item)
                                         <tr>
                                             {{-- first data --}}
                                             <td @if ($item->role == 'superAdmin') class="text-danger" @endif>
@@ -102,9 +102,10 @@
                                                 @if (auth()->user()->id != $item->id)
                                                 <td>
 
-                                                    <a href='{{ route('deleteAdmin', $item->id )}}' class=" btn btn-outline-danger" href=""><i class="fa-solid fa-trash"></i></a>
+                                                    <a href='{{ route('deleteUser', $item->id )}}' class=" btn btn-outline-danger" href=""><i class="fa-solid fa-trash"></i></a>
+                                                    <a href='{{ route('changeToAdminRole', $item->id )}}' class=" btn btn-outline-dark" href=""><i class="fa-solid fa-arrow-up"></i>Change to Admin role</a>
+
                                                 </td>
-                                                {{-- <i class="fa-solid fa-arrow-up"></i> --}}
                                                 @endif
                                             @endif
 
@@ -117,7 +118,7 @@
                             </table>
 
                             {{-- pagination --}}
-                            <span class=" d-flex justify-content-end">{{ $admin_list->links() }}</span>
+                            <span class=" d-flex justify-content-end">{{ $user_list->links() }}</span>
                         </div>
                     </div>
                 </div>
