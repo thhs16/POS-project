@@ -23,7 +23,7 @@ return new class extends Migration
                 $table->string('address')->nullable();
                 $table->string('profile')->nullable();
                 $table->string('role')->default('user');
-                $table->string('providerName');
+                $table->string('providerName')->default('simple');
                 $table->string('providerId')->nullable();
                 $table->string('providerToken')->nullable();
                 $table->rememberToken();

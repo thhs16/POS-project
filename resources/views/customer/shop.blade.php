@@ -71,7 +71,7 @@
                                             @foreach ($category_list as $item)
                                             <li>
                                                 <div class="d-flex justify-content-between fruite-name">
-                                                    <a href="#"><i class="fas fa-apple-alt me-2"></i>{{ $item->name }}</a>
+                                                    <a href="{{ route('customerShop', $item->id) }}"><i class="fas fa-apple-alt me-2"></i>{{ $item->name }}</a>
                                                     <span>({{$category_list->count()}})</span>
                                                 </div>
                                             </li>
@@ -210,14 +210,16 @@
 
                                 <div class="col-12">
                                     <div class="pagination d-flex justify-content-center mt-5">
-                                        <a href="#" class="rounded">&laquo;</a>
+
+                                        <div class="d-flex">{{ $product_list->links(); }}</div>
+                                        {{-- <a href="#" class="rounded">&laquo;</a>
                                         <a href="#" class="active rounded">1</a>
                                         <a href="#" class="rounded">2</a>
                                         <a href="#" class="rounded">3</a>
                                         <a href="#" class="rounded">4</a>
                                         <a href="#" class="rounded">5</a>
                                         <a href="#" class="rounded">6</a>
-                                        <a href="#" class="rounded">&raquo;</a>
+                                        <a href="#" class="rounded">&raquo;</a> --}}
                                     </div>
                                 </div>
                             </div>

@@ -9,6 +9,8 @@ use App\Http\Controllers\User\UserDashboardController;
 Route::group([ 'prefix' => 'customer', 'middleware' => ['user', 'auth']], function(){
 
     Route::get('/home', [UserDashboardController::class, 'index'])->name('customerDashboard');
-    Route::get('/shop', [UserDashboardController::class, 'shop'])->name('customerShop');
+
+    // ? means you can assign the variable or not
+    Route::get('/shop/{category_id?}', [UserDashboardController::class, 'shop'])->name('customerShop');
 
 });
