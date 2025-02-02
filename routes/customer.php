@@ -9,5 +9,6 @@ use App\Http\Controllers\User\UserDashboardController;
 Route::group([ 'prefix' => 'customer', 'middleware' => ['user', 'auth']], function(){
 
     Route::get('/home', [UserDashboardController::class, 'index'])->name('customerDashboard');
+    Route::get('/shop', [UserDashboardController::class, 'shop'])->name('customerShop');
 
 });
