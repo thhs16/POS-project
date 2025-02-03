@@ -12,5 +12,8 @@ Route::group([ 'prefix' => 'customer', 'middleware' => ['user', 'auth']], functi
 
     // ? means you can assign the variable or not
     Route::get('/shop/{category_id?}', [UserDashboardController::class, 'shop'])->name('customerShop');
+//    shop/Detail try to be concerned with the above route
+    Route::get('/shopDetail/{product_id}', [UserDashboardController::class, 'shopDetail'])->name('shopDetail');
+    Route::get('/createComment', [UserDashboardController::class, 'createComment'])->name('createComment');
 
 });

@@ -41,10 +41,13 @@
                 <div class="col-lg-12">
                     <div class="row g-4">
                         <div class="col-xl-3">
-                            <div class="input-group w-100 mx-auto d-flex">
-                                <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                                <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                            </div>
+                            <form action="{{ route('customerShop')}}">
+                                <div class="input-group w-100 mx-auto d-flex">
+                                    <input type="search" name="searchKey" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                                    <button type="submit" id="search-icon-1" class="input-group-text text-white p-3 btn btn-primary "><i class="fa fa-search"></i></button>
+                                </div>
+                            </form>
+                            {{-- hello --}}
                         </div>
                         <div class="col-6"></div>
                         <div class="col-xl-3">
@@ -186,26 +189,30 @@
                             </div>
                         </div>
                         <div class="col-lg-9">
-                            <div class="row g-4 justify-content-center">
+                            <div class="row g-4 d-flex justify-content-center">
 
                                 @foreach ($product_list as $item)
 
-                                    <div class="col-md-6 col-lg-6 col-xl-4">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="{{asset('productImages/'.$item->image)}}" style="height:300px" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{$item->category_name}}</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>{{$item->name}}</h4>
-                                                <p>{{ $truncated = Str::limit($item->description, 100, ' ...'); }}</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                        <div class="col-md-6 col-lg-6 col-xl-4">
+                                            <a href="{{ route('shopDetail', $item->id) }}" style="display: inline">
+                                                <div class="rounded position-relative fruite-item">
+                                                    <div class="fruite-img">
+                                                        <img src="{{asset('productImages/'.$item->image)}}" style="height:300px" class="img-fluid w-100 rounded-top" alt="">
+                                                    </div>
+                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{$item->category_name}}</div>
+                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                        <h4>{{$item->name}}</h4>
+                                                        <p>{{ $truncated = Str::limit($item->description, 100, ' ...'); }}</p>
+                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                            <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
+                                                            <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
-                                    </div>
+
+
                                 @endforeach
 
                                 <div class="col-12">
