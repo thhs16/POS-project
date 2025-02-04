@@ -1,6 +1,8 @@
 @extends('customer.layouts.master')
 @section('content')
 
+
+
 {{-- {{$product_detail->}} --}}
 
     <!-- Modal Search Start -->
@@ -33,7 +35,11 @@
         </ol>
     </div>
     <!-- Single Page Header End -->
-
+    @if(session('message'))
+    <h6 id="sessionMessage" class="alert alert-success">
+        {{ session('message') }}
+    </h6>
+@endif
 
     <!-- Single Product Start -->
     <div class="container-fluid py-5 mt-5">
@@ -53,12 +59,22 @@
                             <h4 class="fw-bold mb-3">{{$product_detail->name}}</h4>
                             <p class="mb-3">Category: {{$product_detail->category_name}}</p>
                             <h5 class="fw-bold mb-3">{{$product_detail->price}} $</h5>
+                            <div class="d-flex mb-2">
+                                @php
+                                    $stars = number_format($rating_count_avg);
+                                @endphp
+                                @for ($i=0; $i < $stars ; $i++)
+                                    <i class="fa fa-star text-secondary"></i>
+                                @endfor
+
+                                @for ($i=$stars; $i < 5 ; $i++)
+                                    <i class="fa fa-star"></i>
+                                @endfor
+
+                            </div>
+
                             <div class="d-flex mb-4">
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <i class="fa fa-star"></i>
+                                {{$rating_ids}} ratings
                             </div>
                             <p class="mb-4">{{ $truncated = Str::limit($product_detail->description, 100, ' ...'); }}</p>
                             <div class="input-group quantity mb-5" style="width: 100px;">
@@ -75,6 +91,84 @@
                                 </div>
                             </div>
                             <a href="#" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+
+                            <br>
+                            {{-- Rating Start --}}
+                            <form action=" {{ route('productRating') }}" method="POST">
+                                @csrf
+                                    <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <div class="text-white">Rate this product</div>
+                                </button>
+
+                                <!-- Modal -->
+
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Rating</h5>
+                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @if ($user_rating )
+                                                    Your Rating
+                                                    <br><br>
+                                                <div class="card card-body mb-2">
+                                                    <div class="rating-css">
+                                                        <div class="star-icon">
+
+
+                                                                    @php
+                                                                        $user_rating = number_format($user_rating->count);
+                                                                    @endphp
+
+
+                                                                @for ($i=0; $i < $user_rating ; $i++)
+                                                                    <input type="radio" value="{{$i}}" name="productRating" id="rating{{$i}}" checked>
+                                                                    <label for="rating{{$i}}" class="fa fa-star"></label>
+                                                                @endfor
+
+                                                                @for ($i=$user_rating; $i < 5 ; $i++)
+                                                                    <input type="radio" value="{{$i}}" name="productRating" id="rating{{$i}}">
+                                                                    <label for="rating{{$i}}" class="fa fa-star"></label>
+                                                                @endfor
+                                                            @else
+
+                                                            <input type="radio" value="1" name="productRating" id="rating1" checked>
+                                                            <label for="rating1" class="fa fa-star"></label>
+                                                            <input type="radio" value="2" name="productRating" id="rating2">
+                                                            <label for="rating2" class="fa fa-star"></label>
+                                                            <input type="radio" value="3" name="productRating" id="rating3">
+                                                            <label for="rating3" class="fa fa-star"></label>
+                                                            <input type="radio" value="4" name="productRating" id="rating4">
+                                                            <label for="rating4" class="fa fa-star"></label>
+                                                            <input type="radio" value="5" name="productRating" id="rating5">
+                                                            <label for="rating5" class="fa fa-star"></label>
+                                                            @endif
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" name="productId" value="{{$product_detail->id}}">
+                                                <input type="hidden" name="userId" value="{{auth()->user()->id}}">
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><div class="text-white">Close</div></button>
+                                            <button type="submit" class="btn btn-primary"><div class="text-white">Save Changes</div></button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+
+
+                            {{-- Rating End --}}
                         </div>
                         <div class="col-lg-12">
                             <nav>
@@ -141,42 +235,35 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                                    <div class="d-flex">
-                                        <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-                                        <div class="">
-                                            <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
-                                            <div class="d-flex justify-content-between">
-                                                <h5>Jason Smith</h5>
-                                                <div class="d-flex mb-3">
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star"></i>
+
+                                    @foreach ($comment_detail as $item)
+
+                                        <div class="d-flex">
+                                            @if ($item->user_image != null)
+                                                <img src="{{asset('profileImages/'.$item->image)}}" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                            @else
+                                                <img src="{{asset('admin/img/undraw_profile.svg')}}" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+
+                                            @endif
+
+                                                <div class="">
+                                                    <p class="mb-2" style="font-size: 14px;">{{ $item->created_at->format('j-F-Y') }}</p>
+                                                    <div class="d-flex justify-content-between">
+                                                        <h5>{{$item->user_name}}   </h5><br>
+                                                        <div class="d-flex" >
+                                                            <i class="fa fa-star text-secondary"></i>
+                                                            <i class="fa fa-star text-secondary"></i>
+                                                            <i class="fa fa-star text-secondary"></i>
+                                                            <i class="fa fa-star text-secondary"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                    </div>
+                                                    <p>{{ $item->message }} </p>
                                                 </div>
-                                            </div>
-                                            <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
-                                                words etc. Susp endisse ultricies nisi vel quam suscipit </p>
                                         </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-                                        <div class="">
-                                            <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
-                                            <div class="d-flex justify-content-between">
-                                                <h5>Sam Peters</h5>
-                                                <div class="d-flex mb-3">
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                            </div>
-                                            <p class="text-dark">The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
-                                                words etc. Susp endisse ultricies nisi vel quam suscipit </p>
-                                        </div>
-                                    </div>
+
+                                    @endforeach
+
                                 </div>
                                 <div class="tab-pane" id="nav-vision" role="tabpanel">
                                     <p class="text-dark">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam

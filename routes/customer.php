@@ -15,5 +15,6 @@ Route::group([ 'prefix' => 'customer', 'middleware' => ['user', 'auth']], functi
 //    shop/Detail try to be concerned with the above route
     Route::get('/shopDetail/{product_id}', [UserDashboardController::class, 'shopDetail'])->name('shopDetail');
     Route::get('/createComment', [UserDashboardController::class, 'createComment'])->name('createComment');
+    Route::post('/productRating', [UserDashboardController::class, 'productRating'])->name('productRating');
 
 });

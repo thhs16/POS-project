@@ -29,7 +29,9 @@
         <!-- Template Stylesheet -->
         <link href="{{ asset('customer/css/style.css') }}" rel="stylesheet">
 
-        {{-- {{ asset('customer/') }} --}}
+        {{-- Template for rating section --}}
+        <link href="{{ asset('customer/css/custom.css') }}" rel="stylesheet">
+
     </head>
 
     <body>
@@ -212,5 +214,15 @@
     <!-- Template Javascript -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
     </body>
+
+    {{-- Temporary session message --}}
+    <script>
+        setTimeout(function() {
+            let msg = document.getElementById('sessionMessage');
+            if (msg){
+               msg.remove();
+            }
+        }, 2000);
+    </script>
 
 </html>

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\rating;
+use App\Models\Comment;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Str;
 
 class UserDashboardController extends Controller
 {
@@ -39,7 +41,29 @@ class UserDashboardController extends Controller
                                 ->select('products.id','products.name','products.price','products.description','products.count','products.image','categories.name as category_name')
                                 ->leftJoin('categories', 'products.category_id','categories.id')
                                 ->first();
-        return view('customer.shop_detail', compact('product_detail'));
+
+        $comment_detail = Comment::where('comments.product_id', $product_id)
+                                    ->select('comments.message','comments.created_at', 'users.name as user_name', 'users.profile as user_image')
+                                    ->leftJoin('users', 'comments.user_id' , 'users.id')
+                                    ->get();
+
+        $rating_count_avg = rating::where('product_id', $product_id)->avg('count');
+
+        $rating_ids = rating::where('product_id', $product_id)->select('id');
+
+        $rating_ids = $rating_ids->count();
+
+
+        // request('productId') does not exist because it is for $this->productRating();
+        $user_rating = rating::where('user_id', auth()->user()->id)
+        ->where('product_id', $product_id)
+        ->select('count')->first();
+
+        // $user_rating = $user_rating->count;
+
+        // dd($user_rating);
+
+        return view('customer.shop_detail', compact('product_detail', 'comment_detail', 'rating_count_avg', 'rating_ids','user_rating'));
     }
 
     public function createComment(Request $request){
@@ -47,8 +71,57 @@ class UserDashboardController extends Controller
         $validation = $request->validate([
             'message' => 'required'
         ]);
+
+        $data = [
+            'user_id' => $request->userId,
+            'product_id' => $request->productId,
+            'message' => $request->message
+        ];
+
+        Comment::create($data);
+
+        return back();
     }
 
+    public function productRating(){
+
+        $rating_status = rating::where('user_id', auth()->user()->id)
+                        ->where('product_id', request('productId'))
+                        ->select('id')->first();
+
+
+        $data = [
+            'product_id' => request('productId'),
+            'user_id' => request('userId'),
+            'count' => request('productRating')
+        ];
+
+        // // setting default rating value
+        // if(request('product_rating') == null){
+        //     $data['count'] = '5';
+        // }else{
+        //     $data['count'] = request('productRating');
+        // }
+
+        // update or create
+        if($rating_status == null){
+
+            rating::create($data);
+        }else{
+            rating::where('id', $rating_status->id)->update([
+                'count' => request('productRating')
+            ]);
+        }
+
+
+
+
+
+
+
+        return back()->with('message', 'Rating Success!');
+
+    }
 
     private function productDB($category_id, $searchKey){
 
