@@ -16,5 +16,10 @@ Route::group([ 'prefix' => 'customer', 'middleware' => ['user', 'auth']], functi
     Route::get('/shopDetail/{product_id}', [UserDashboardController::class, 'shopDetail'])->name('shopDetail');
     Route::get('/createComment', [UserDashboardController::class, 'createComment'])->name('createComment');
     Route::post('/productRating', [UserDashboardController::class, 'productRating'])->name('productRating');
+    Route::get('/cart', [UserDashboardController::class, 'cart'])->name('cart');
+    Route::get('/addToCart', [UserDashboardController::class, 'addToCart'])->name('addToCart');
+    Route::get('/removeCart', [UserDashboardController::class, 'removeCart'])->name('removeCart');
+    Route::get('/order', [UserDashboardController::class, 'order'])->name('order');
+
 
 });

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\cart;
+use App\Models\order;
 use App\Models\rating;
 use App\Models\Comment;
+use App\Models\payment;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Str;
@@ -20,8 +23,14 @@ class UserDashboardController extends Controller
                         ->leftJoin('categories', 'products.category_id','categories.id')
                         ->get();
 
+        $rating = Comment::select('comments.message','users.name','users.profile')
+                    ->leftJoin('users', 'users.id','comments.user_id')
+                    ->get();
 
-        return view('customer/home', compact('category_list','product_list'));
+        // dd($rating->toArray());
+
+
+        return view('customer/home', compact('category_list','product_list', 'rating'));
     }
 
 
@@ -63,7 +72,12 @@ class UserDashboardController extends Controller
 
         // dd($user_rating);
 
-        return view('customer.shop_detail', compact('product_detail', 'comment_detail', 'rating_count_avg', 'rating_ids','user_rating'));
+        $product_list_cate = Product::where('categories.name',$product_detail->category_name)
+                        ->select('products.id','products.name','products.price','products.description','products.count','products.image','categories.name as category_name')
+                        ->leftJoin('categories', 'products.category_id','categories.id')
+                        ->get();
+
+        return view('customer.shop_detail', compact('product_detail', 'comment_detail', 'rating_count_avg', 'rating_ids','user_rating', 'product_list_cate'));
     }
 
     public function createComment(Request $request){
@@ -121,6 +135,86 @@ class UserDashboardController extends Controller
 
         return back()->with('message', 'Rating Success!');
 
+    }
+
+    public function cart(){
+        // product name, price, image
+        // cart - quantity,
+        // user - id
+
+        $cart_detail = cart::where('carts.user_id', auth()->user()->id)
+                        ->select('carts.id','carts.qty', 'products.name','products.price','products.image')
+                        ->leftJoin('products', 'products.id', 'carts.product_id')
+                        ->get();
+
+        // dd($cart_detail->toArray());
+
+        $payment_methods = payment::select('id','type')->get();
+
+        // dd($payment_methods->toArray());
+
+        return view('customer.cart', compact('cart_detail','payment_methods'));
+    }
+
+    // cart system
+    public function addToCart(){
+        // dd(request('userId'));
+        // dd(request('productId'));
+        // dd(request('qty'));
+
+        cart::create([
+            'user_id' => request('userId'),
+            'product_id' => request('productId'),
+            'qty' => request('qty')
+        ]);
+
+
+        return to_route('customerShop');
+    }
+
+    // remove cart data
+    public function removeCart(Request $request){
+
+        logger($request->all());
+
+
+        cart::where('id',$request->cartId)->delete();
+
+        $cart_last_detail = cart::where('carts.user_id', auth()->user()->id)
+                        ->select('carts.id','carts.qty', 'products.name','products.price','products.image')
+                        ->leftJoin('products', 'products.id', 'carts.product_id')
+                        ->get();
+
+        $serverResponse = [
+            'data' => $cart_last_detail ,
+            'message' => 'success'
+        ];
+
+        return response()->json($serverResponse, 200);
+    }
+
+    // order
+    public function order(Request $request){
+        // logger($request->all());
+
+        foreach($request->all() as $item){
+            // logger($item);
+            order::create([
+                'product_id' => $item['productId'],
+                'user_id' => $item['userId'],
+                'status' => 0,
+                'order_code' => $item['orderCode'],
+                'count' => $item['qty'],
+                'total_price' => $item['totalPrice']
+            ]);
+
+            cart::where('user_id', $item['userId'])->where('product_id', $item['productId'])->delete();
+        }
+
+        return response()->json([
+            'message' => 'success',
+            'status' => 200
+        ], 200);
     }
 
     private function productDB($category_id, $searchKey){
