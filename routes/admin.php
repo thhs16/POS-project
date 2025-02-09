@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderBoard;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\adminUserlist;
 use App\Http\Controllers\Admin\AuthController;
@@ -58,5 +59,13 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'auth']], function
     Route::get('deleteUser/{id}', [adminUserlist::class,'deleteUser'])->name('deleteUser');
     Route::get('changeToAdminRole/{id}', [adminUserlist::class,'changeToAdminRole'])->name('changeToAdminRole');
 
+    // Order Board
+    Route::prefix('orderBoard')->group(function(){
+        Route::get('list', [OrderBoard::class,'list'])->name('orderBoardList');
+        Route::get('orderCodeDetail/{orderCode}', [OrderBoard::class,'orderCodeDetail'])->name('orderCodeDetail');
+        Route::get('statusChange', [OrderBoard::class,'statusChange'])->name('statusChange');
+    });
 
+    // admin and user accounts' profile
+    Route::get('accountProfile/{id}', [adminUserlist::class,'accountProfile'])->name('accountProfile');
 });

@@ -79,7 +79,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i><span>Order Board </span></a>
+                <a class="nav-link" href="{{ route('orderBoardList') }}"><i class="fa-solid fa-cart-shopping"></i><span>Order Board </span></a>
             </li>
 
             <li class="nav-item">
@@ -239,6 +239,9 @@
             }
         }, 2000);
     </script>
+
+    {{-- Order List Status --}}
+    @yield('orderListStatus');
 
 </body>
 

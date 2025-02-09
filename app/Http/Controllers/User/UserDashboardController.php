@@ -11,7 +11,9 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\PaySlipHistory;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class UserDashboardController extends Controller
 {
@@ -143,7 +145,7 @@ class UserDashboardController extends Controller
         // user - id
 
         $cart_detail = cart::where('carts.user_id', auth()->user()->id)
-                        ->select('carts.id','carts.qty', 'products.name','products.price','products.image')
+                        ->select('carts.id','carts.qty', 'carts.product_id','products.name','products.price','products.image')
                         ->leftJoin('products', 'products.id', 'carts.product_id')
                         ->get();
 
@@ -197,9 +199,12 @@ class UserDashboardController extends Controller
     public function order(Request $request){
         // logger($request->all());
 
+        $orderArr = [];
+
         foreach($request->all() as $item){
             // logger($item);
-            order::create([
+
+            array_push($orderArr,[
                 'product_id' => $item['productId'],
                 'user_id' => $item['userId'],
                 'status' => 0,
@@ -208,13 +213,99 @@ class UserDashboardController extends Controller
                 'total_price' => $item['totalPrice']
             ]);
 
-            cart::where('user_id', $item['userId'])->where('product_id', $item['productId'])->delete();
+            Session::put('orderList',$orderArr);
+
+            // $request-session()->put('orderList',$orderArr);
+
+            logger(Session::get('orderList'));
+
+
+
+            // order::create([
+            //     'product_id' => $item['productId'],
+            //     'user_id' => $item['userId'],
+            //     'status' => 0,
+            //     'order_code' => $item['orderCode'],
+            //     'count' => $item['qty'],
+            //     'total_price' => $item['totalPrice']
+            // ]);
+
+            // logger($orderArr);
+
+            // cart::where('user_id', $item['userId'])->where('product_id', $item['productId'])->delete();
         }
 
         return response()->json([
             'message' => 'success',
             'status' => 200
         ], 200);
+    }
+
+    // orderList
+    public function orderList(){
+        $order_detail = order::where('user_id', auth()->user()->id )->get();
+        return view('customer/orderList', compact('order_detail'));
+    }
+
+    // payment
+    public function payment(){
+        $order_list_payment = Session::get('orderList');
+        $payment = payment::get();
+
+        $total_price_payment = 0;
+        foreach($order_list_payment as $item){
+            $total_price_payment += $item['total_price'];
+        }
+
+        return view('customer.payment', compact('payment', 'order_list_payment', 'total_price_payment'));
+    }
+
+    // order product history
+    public function orderProductHistory(Request $request){
+
+        $validation = $request->validate([
+            "customerName" => 'required',
+            "customerPhone" => 'required',
+            "paymentMethod" => "required",
+            "payslipImage" => 'required'
+        ]);
+
+        // dd($request->all());
+        // dd($request->hasFile('payslipImage'));
+
+
+        $order_list_payment = Session::get('orderList');
+        // dd($order_list_payment);
+
+        foreach($order_list_payment as $item){
+            Order::create($item);
+            cart::where('user_id', $item['user_id'])->where('product_id', $item['product_id'])->delete();
+        }
+
+        $data = [
+            'customer_name' => $request->customerName,
+            'phone' => $request->customerPhone,
+            'payslip_image' => '',
+            'payment_method' => $request->paymentMethod,
+            'order_code' => $request->orderCode,
+            'order_amount' => $request->orderAmount
+        ];
+
+        if($request->hasFile('payslipImage')){
+            // dd('hello');
+            $fileName = uniqid() . $request->file('payslipImage')->getClientOriginalName();
+            $request->file('payslipImage')->move(public_path().'/paySlipRecords/',$fileName);
+            $data['payslip_image'] = $fileName;
+            // dd($data);
+
+        }
+
+
+        PaySlipHistory::create($data);
+        // dd($data);
+
+        return to_route('orderList');
+
     }
 
     private function productDB($category_id, $searchKey){

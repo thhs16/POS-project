@@ -218,7 +218,7 @@
                                 <div class="col-12">
                                     <div class="pagination d-flex justify-content-center mt-5">
 
-                                        <div class="d-flex">{{ $product_list->links(); }}</div>
+                                        <div class="d-flex justify-content-end">{{ $product_list->links(); }}</div>
                                         {{-- <a href="#" class="rounded">&laquo;</a>
                                         <a href="#" class="active rounded">1</a>
                                         <a href="#" class="rounded">2</a>

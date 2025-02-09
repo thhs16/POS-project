@@ -59,4 +59,11 @@ class adminUserlist extends Controller
 
         return back()->with('Error message', 'The account is deleted successfully');
     }
+
+    // account profile
+    public function accountProfile($id){
+        $account = User::where('id',$id)->first();
+        // dd($account);
+        return view('admin.accountProfile', compact('account'));
+    }
 }

@@ -16,16 +16,22 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // when accessing admin routes
-        if(   in_array(Auth::user()->role, ['admin', 'superAdmin'])   ){
-            return $next($request);
+
+        if(!empty( Auth::user() )){
+
+            if(   in_array(Auth::user()->role, ['admin', 'superAdmin'])   ){
+
+                if($request->route()->getName() == 'userRegister' || $request->route()->getName() =='userLogin'){
+                    abort(404);
+                };
+
+                return $next($request);
+            }
+
+            return back();
         }
 
-        // 404 not found
-        // dd('from adminM');
-        return back(); //show the current page without going anywhere
-        // abort('404');
-        // view('404 page');
+        return $next($request);
 
     }
 }

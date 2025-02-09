@@ -20,6 +20,9 @@ Route::group([ 'prefix' => 'customer', 'middleware' => ['user', 'auth']], functi
     Route::get('/addToCart', [UserDashboardController::class, 'addToCart'])->name('addToCart');
     Route::get('/removeCart', [UserDashboardController::class, 'removeCart'])->name('removeCart');
     Route::get('/order', [UserDashboardController::class, 'order'])->name('order');
+    Route::get('/orderList', [UserDashboardController::class, 'orderList'])->name('orderList');
+    Route::get('/payment', [UserDashboardController::class, 'payment'])->name('payment');
+    Route::post('/orderProductHistory', [UserDashboardController::class, 'orderProductHistory'])->name('orderProductHistory');
 
 
 });

@@ -15,12 +15,13 @@ require_once __DIR__.'/customer.php';
 
 Route::redirect('/','auth/login');
 
-Route::get('login/register', [AuthController::class, 'registerPage'])->name('userRegister');
+Route::middleware('admin')->group(function(){
+    Route::get('login/register', [AuthController::class, 'registerPage'])->name('userRegister');
+    Route::get('auth/login', [AuthController::class, 'loginPage'])->name('userLogin');
+});
 
-Route::get('auth/login', [AuthController::class, 'loginPage'])->name('userLogin');
 
 Route::get('/auth/{provider}/redirect', [ProviderController::class,'redirect']);
-
 Route::get('/auth/{provider}/callback', [ProviderController::class,'callback']);
 
 Route::get('/dashboard', function (){

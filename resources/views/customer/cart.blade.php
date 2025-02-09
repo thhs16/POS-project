@@ -99,11 +99,11 @@
                                     @endphp
                                 </td>
                                 <td>
-                                    <input type="hidden" name="cartId" id="cartId" value="{{$item->id}}">
-                                    <input type="hidden" name="productId" id="productId" value="{{$item->product_id}}">
+                                    <input type="hidden" id="cartId" value="{{$item->id}}">
+                                    <input type="hidden"  id="productId" value="{{$item->product_id}}">
 
                                     <button class="btn btn-md rounded-circle bg-light border mt-4" >
-                                        <i class="fa fa-times text-danger" id="btnRemove"></i>
+                                        <i class="fa fa-times text-danger btnRemove"></i>
                                     </button>
                                 </td>
                             @endforeach
@@ -150,7 +150,10 @@
                             </select>
                         </div>
 
-                        <button id="checkout" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
+                        <button id="checkout" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button" @if (count($cart_detail) == 0)
+                            disabled
+                        @endif>Proceed Checkout</button>
+
                     </div>
                 </div>
             </div>
@@ -206,11 +209,11 @@
                 $('#total').html(`$${$sumPrice+3}`);
             }
 
-            $('#btnRemove').click(function(){
+            $('.btnRemove').click(function(){
                 $parentNode = $(this).parents('tr');
                 $cartId = $parentNode.find('#cartId').val();
 
-                // console.log($cartId);
+                console.log($cartId);
 
                 $deleteData = {
                     'cartId' : $cartId
@@ -248,7 +251,7 @@
                     $qty = $(row).find('#qty').val() *1
                     $totalPrice = $(row).find('#eachTotal').text().replace('$','') *1;
 
-                    console.log($qty);
+                    console.log($productId);
                     $orderList.push({
                         'userId' : $userId,
                         'productId' :$productId,
@@ -267,7 +270,7 @@
                     datatype : 'json',
                     success : function(response){
                         if(response.message == 'success'){
-                            location.href = 'shop';
+                            location.href = 'payment';
                             console.log('success');
                         }
                         // console.log(response);

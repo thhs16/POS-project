@@ -74,7 +74,9 @@
                                         <tr>
                                             {{-- first data --}}
                                             <td @if ($item->role == 'superAdmin') class="text-danger" @endif>
-                                                {{ $item->name }}{{ $item->nickname }}
+                                                <a href="{{ route('accountProfile', $item->id) }}">
+                                                    {{ $item->name }}{{ $item->nickname }}
+                                                </a>
                                             </td>
 
                                             {{-- second data --}}

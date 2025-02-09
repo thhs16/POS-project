@@ -18,9 +18,16 @@ class UserMiddleware
     {
         // when accessing user routes
         // dd('from userR');
-        if(Auth::user()->role == 'user'){
-            return $next($request);
-        }
+        // if(!empty( Auth::user() )){
+
+            if(Auth::user()->role == 'user'){
+                // if($request->route()->getName() == 'userRegister' || $request->route()->getName() =='userLogin'){
+                //     abort(404);
+                // };
+
+                return $next($request);
+            }
+        // }
 
         // dd('from userM');
         return back();
