@@ -60,8 +60,8 @@
                                             <td>{{ $pd->price }}</td>
                                             <td>{{ $pd->count }}</td>
                                             <td>
-                                                <a href="{{ route('productDetails',$pd->id) }}"><i class="fa-solid fa-eye btn btn-primary"></i></a>
-                                                <a href="{{ route('productEdit',$pd->id) }}"><i class="fa-solid fa-pen-to-square btn btn-secondary"></i></a>
+                                                <a href="{{ route('productDetails',$pd->id) }}"><i class="fa-solid fa-eye btn btn-primary" ></i></a>
+                                                <a href="{{ route('productEdit',$pd->id) }}"><i class="fa-solid fa-pen-to-square btn btn-secondary" ></i></a>
                                                 <a href="{{ route('productDelete',$pd->id) }}"><i class="fa-solid fa-trash btn btn-danger"></i></a>
                                             </td>
                                         </tr>

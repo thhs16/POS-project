@@ -55,8 +55,8 @@
 
                     </div>
                     <div class="card-body">
-                        <a href="{{ route('admin&userlist') }}" class="btn btn-secondary mb-3">Admin List <span class="badge badge-light">{{$admin_count}}</span></a>
-                        <a href="#" class="btn btn-secondary mb-3">User List <span class="badge badge-light">{{$user_list->total()}}</span></a>
+                        <a href="{{ route('admin&userlist') }}" class="btn btn-secondary mb-3">Admin List <span class="badge badge-light text-black">{{$admin_count}}</span></a>
+                        <a href="#" class="btn btn-secondary mb-3">User List <span class="badge badge-light text-black">{{$user_list->total()}}</span></a>
 
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
