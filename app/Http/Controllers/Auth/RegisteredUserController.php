@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('authentication_roar.register');
     }
 
     /**
@@ -27,32 +27,32 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
-    {
-    
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone' => ['required'],
-            'address' => ['required'],
-            'password_confirmation' => ['required'],
-        ],[
-            // 'name' => 'လိုအပ်သည်'
-        ]);
+    // public function store(Request $request): RedirectResponse
+    // {
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-            'address' => $request->address,
-        ]);
+    //     $request->validate([
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+    //         'password' => ['required', 'confirmed', Rules\Password::defaults()],
+    //         'phone' => ['required'],
+    //         'address' => ['required'],
+    //         'password_confirmation' => ['required'],
+    //     ],[
+    //         // 'name' => 'လိုအပ်သည်'
+    //     ]);
 
-        event(new Registered($user));
+    //     $user = User::create([
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'password' => Hash::make($request->password),
+    //         'phone' => $request->phone,
+    //         'address' => $request->address,
+    //     ]);
 
-        Auth::login($user);
+    //     event(new Registered($user));
 
-        return to_route('customerDashboard');
-    }
+    //     Auth::login($user);
+
+    //     return to_route('customerDashboard');
+    // }
 }

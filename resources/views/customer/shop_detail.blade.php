@@ -171,9 +171,6 @@
                                     </div>
                                 </div>
                             </form>
-
-
-
                             {{-- Rating End --}}
                         </div>
                         <div class="col-lg-12">
